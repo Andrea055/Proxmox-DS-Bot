@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "G4DrxUKWBKF59IC/Vmynnp76iO45GqxjA0KjcLVDA3XmysX6gePkuR4/GsKGbr4+tAubgvync128GvznKwceKg==",
+  "success": true,
+  "projectFilePath": "/home/andreock/Scrivania/ProxBot/Proxbot.Config/Proxmox.Config.csproj",
+  "expectedPackageFiles": [
+    "/home/andreock/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
