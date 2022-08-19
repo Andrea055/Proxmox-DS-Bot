@@ -6,9 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Corsinvest.ProxmoxVE.Api;
-using System.Collections.Generic;
-
+using Proxmox.Bot.Handler;
 namespace Proxmox.BOT
 {
     public class Program
@@ -58,52 +56,22 @@ namespace Proxmox.BOT
         {   
             var info = component.Data.CustomId;
            if(info.Contains("status")){
-            var raw_data = info.Split("/");
-            var id = raw_data[0].Replace("statusID:", "");
-            var username = raw_data[1].Replace("User:", "");
-            var password = raw_data[2].Replace("Password:", "");
-            var ip = raw_data[3].Replace("IP:", "");
-            var node = raw_data[4].Replace("Node:", "");
-            var client = new PveClient(ip);
-            if (await client.Login(username, password))
-            {
-                Console.WriteLine(node);
-                Console.WriteLine(id);
-                var status_raw = await client.Nodes[node].Qemu[id].Status.Current.VmStatus();
-                var status = status_raw.Response.data;
-                var id_emb = new EmbedFieldBuilder()
-                    .WithName("ID:")
-                    .WithValue($"{status.vmid}");
-                var Status = new EmbedFieldBuilder()
-                    .WithName("Status")
-                    .WithValue(status.status);
-                var cpu = new EmbedFieldBuilder() 
-                    .WithName("Cpus")
-                    .WithValue(status.cpus)
-                    .WithValue($"Cpu usage: {status.cpu}");
-                var ram = new EmbedFieldBuilder()
-                    .WithName("RAM")
-                    .WithValue(status.maxmem);
-                var net = new EmbedFieldBuilder()
-                    .WithName("Network")
-                    .WithValue($"NetOut: {status.netout}")
-                    .WithValue($"NetIn: {status.netin}");
-                var disk_emb = new EmbedFieldBuilder()
-                    .WithName("Disk")
-                    .WithValue($"Disk Read: {status.diskread}");
-                   
-               
-                var embed = new EmbedBuilder
-                    {
-                    // Embed property can be set within object initializer
-                    Title = status.name,
-                    Description = status.status,  
-                    Fields = new List<EmbedFieldBuilder>{
-                        id_emb, Status, cpu,ram, net, disk_emb
-                    }        
-                    };
-                    await component.RespondAsync("",  embed: embed.Build());
-            }
+            var status_handler = new Status();
+            status_handler.Handler(component, info);
+           }else if(info.Contains("stop")){
+            var stop_handler = new Stop();
+            stop_handler.Handler(component, info);
+           }else if(info.Contains("reboot")){
+            var reboot_handler = new Reboot();
+            reboot_handler.Handler(component, info);
+           }else if(info.Contains("reset")){
+            var reset_handler = new Reset();
+            reset_handler.Handler(component, info);
+           }else if(info.Contains("shutdown")){
+            var shutdown_handler = new Shutdown();
+            shutdown_handler.Handler(component, info);
+           }else{
+                await component.RespondAsync("Exception during the execution of call, contact the BOT creator or owner");
            }
         }
         public async Task RunAsync()
