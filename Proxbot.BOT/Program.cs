@@ -48,7 +48,8 @@ namespace Proxmox.BOT
                 .WithButton("Stop", $"stop{id}", ButtonStyle.Danger)
                 .WithButton("Reboot", $"reboot{id}", ButtonStyle.Success)
                 .WithButton("Reset", $"reset{id}", ButtonStyle.Success)
-                .WithButton("Status", $"status{id}", ButtonStyle.Success);
+                .WithButton("Status", $"status{id}", ButtonStyle.Success)
+                .WithButton("Config", $"config{id}", ButtonStyle.Success);
 
             await arg.RespondAsync($"VM {id.Split("/")[0].Replace("ID:", "")} selected: Choose an action:", components: builder.Build());
         }
@@ -70,7 +71,10 @@ namespace Proxmox.BOT
            }else if(info.Contains("shutdown")){
             var shutdown_handler = new Shutdown();
             shutdown_handler.Handler(component, info);
-           }else{
+           }else if(info.Contains("config")){
+            var config_handler = new Bot.Handler.Config();
+            config_handler.Handler(component, info);
+            }else{
                 await component.RespondAsync("Exception during the execution of call, contact the BOT creator or owner");
            }
         }
