@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Proxmox.BOT</RootNamespace>
-    <StartupObjectttt />
+    <StartupObjecttttttt/>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +17,9 @@
     <PackageReference Include="Corsinvest.ProxmoxVE.Api" Version="7.3.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.1" />
   </ItemGroup>
 
   <ItemGroup>

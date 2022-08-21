@@ -4,7 +4,7 @@ using System;
 
 namespace Proxmox.Bot.Handler{
     public class Stop{
-        async public void Handler(SocketMessageComponent component, string info ){
+        async public void Handler(SocketMessageComponent component, string info){
             var user = component.User as SocketGuildUser;
             if(user.GuildPermissions.Administrator){
                 var raw_data = info.Split("/");

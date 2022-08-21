@@ -40,7 +40,7 @@ namespace Proxmox.BOT
                 .GetAwaiter()
                 .GetResult();
 
-        public async Task MyMenuHandler(SocketMessageComponent arg)
+        public static async Task MyMenuHandler(SocketMessageComponent arg)
         {
             var id = string.Join(", ", arg.Data.Values);
             var builder = new ComponentBuilder()
@@ -49,34 +49,51 @@ namespace Proxmox.BOT
                 .WithButton("Reboot", $"reboot{id}", ButtonStyle.Success)
                 .WithButton("Reset", $"reset{id}", ButtonStyle.Success)
                 .WithButton("Status", $"status{id}", ButtonStyle.Success)
-                .WithButton("Config", $"config{id}", ButtonStyle.Success);
+                .WithButton("Config", $"config{id}", ButtonStyle.Success)
+                .WithButton("Graph", $"graph{id}", ButtonStyle.Secondary);
 
             await arg.RespondAsync($"VM {id.Split("/")[0].Replace("ID:", "")} selected: Choose an action:", components: builder.Build());
         }
-        public async Task MyButtonHandler(SocketMessageComponent component)
+        public static async Task MyButtonHandler(SocketMessageComponent component)
         {   
             var info = component.Data.CustomId;
-           if(info.Contains("status")){
-            var status_handler = new Status();
-            status_handler.Handler(component, info);
-           }else if(info.Contains("stop")){
-            var stop_handler = new Stop();
-            stop_handler.Handler(component, info);
-           }else if(info.Contains("reboot")){
-            var reboot_handler = new Reboot();
-            reboot_handler.Handler(component, info);
-           }else if(info.Contains("reset")){
-            var reset_handler = new Reset();
-            reset_handler.Handler(component, info);
-           }else if(info.Contains("shutdown")){
-            var shutdown_handler = new Shutdown();
-            shutdown_handler.Handler(component, info);
-           }else if(info.Contains("config")){
-            var config_handler = new Bot.Handler.Config();
-            config_handler.Handler(component, info);
-            }else{
+            if(info.Contains("status")){
+                var status_handler = new Status();
+                status_handler.Handler(component, info);
+            }else if(info.Contains("stop")){
+                var stop_handler = new Stop();
+                stop_handler.Handler(component, info);
+            }else if(info.Contains("reboot")){
+                var reboot_handler = new Reboot();
+                reboot_handler.Handler(component, info);
+            }else if(info.Contains("reset")){
+                var reset_handler = new Reset();
+                reset_handler.Handler(component, info);
+            }else if(info.Contains("shutdown")){
+                var shutdown_handler = new Shutdown();
+                shutdown_handler.Handler(component, info);
+            }else if(info.Contains("config")){
+                var config_handler = new Bot.Handler.Config();
+                config_handler.Handler(component, info);
+            }else if(info.Contains("graph")){
+                var graph_handler = new Graph();
+                graph_handler.Handler(component, info);
+            }else if(info.Contains("cpu")){
+                var cpu_handler = new CPU();
+                cpu_handler.Handler(component, info);
+            }else if(info.Contains("ram")){
+                var ram_handler = new RAM();
+                ram_handler.Handler(component, info);
+            }else if(info.Contains("network")){
+                var net = new Net();
+                net.Handler(component, info);
+            }else if (info.Contains("disk")) {
+                var disk_handler = new IO();
+                disk_handler.Handler(component, info);
+            }
+            else{
                 await component.RespondAsync("Exception during the execution of call, contact the BOT creator or owner");
-           }
+            }
         }
         public async Task RunAsync()
         {

@@ -86,9 +86,8 @@ namespace Proxmox.BOT
                                 .WithSelectMenu(menuBuilder);
                             
                             await ReplyAsync("Choose a VM", components: builder.Build());
-            }
-         
-            
-}
+            }        
+        }
+        
     }
 }
