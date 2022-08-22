@@ -3,8 +3,8 @@ using Discord.Interactions;
 using System.Threading.Tasks;
 using Corsinvest.ProxmoxVE.Api;
 using System.Collections.Generic;
-using System;
-
+using Newtonsoft.Json;
+using Proxmox.Model;
 namespace Proxmox.BOT
 {
     // Interation modules must be public and inherit from an IInterationModuleBase
@@ -13,7 +13,7 @@ namespace Proxmox.BOT
         // Dependencies can be accessed through Property injection, public properties with public setters will be set by the service provider
         public InteractionService Commands { get; set; }
 
-        private InteractionHandler _handler;
+        private readonly InteractionHandler _handler;
 
         // Constructor injection is also a valid way to access the dependencies
         public ExampleModule(InteractionHandler handler)
@@ -77,7 +77,8 @@ namespace Proxmox.BOT
                     for(var i = 0; i < vmids.Count; i++){
                         try{
                             menuBuilder.AddOption(vmids[i].name,  $"ID:{vmids[i].vmid}/User:{username}/Password:{password}/IP:{ip}/Node:{node}",$"VM-{vmids[i].vmid}");
-                        }catch(Exception ex){
+                        }catch{
+
                         }
                     }
                         
@@ -88,6 +89,34 @@ namespace Proxmox.BOT
                             await ReplyAsync("Choose a VM", components: builder.Build());
             }        
         }
-        
+        [SlashCommand("netstat", "Get statistics from all network VM")]
+        public async Task NetStat([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+            var client = new PveClient(ip);
+            if (await client.Login(username, password)){
+                var netstat_raw = await client.Nodes[node].Netstat.Netstat();
+                var netstat = netstat_raw.Response.data;
+                var fields = new List<EmbedFieldBuilder>();
+                foreach(dynamic vm in netstat){
+                    string vmstring = JsonConvert.SerializeObject(vm);
+                    vmstring = vmstring.Replace("in", "innet");
+                    vmstring = vmstring.Replace("out", "outnet");
+                    Netstat vmtrue = JsonConvert.DeserializeObject<Netstat>(vmstring);
+                    fields.Add(new EmbedFieldBuilder()
+                        .WithName($"Network in - VM{vm.vmid}")
+                        .WithValue(vmtrue.innet)
+                    );
+                    fields.Add(new EmbedFieldBuilder()
+                        .WithName($"Network out - VM{vm.vmid}")
+                        .WithValue(vmtrue.outnet)
+                    );
+                }
+                var embed = new EmbedBuilder
+                    {
+                    Title = $"Network usage in {node}",
+                    Fields = fields           
+                    };   
+                await ReplyAsync(embed: embed.Build());
+            }
+        }
     }
 }

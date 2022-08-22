@@ -1005,6 +1005,16 @@
           }
         }
       },
+      "Proxbot.Model/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Proxbot.Model.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Proxbot.Model.dll": {}
+        }
+      },
       "Proxmox.Config/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -2505,6 +2515,11 @@
         "version.txt"
       ]
     },
+    "Proxbot.Model/1.0.0": {
+      "type": "project",
+      "path": "../Proxbot.Model/Proxbot.Model.csproj",
+      "msbuildProject": "../Proxbot.Model/Proxbot.Model.csproj"
+    },
     "Proxmox.Config/1.0.0": {
       "type": "project",
       "path": "../Proxbot.Config/Proxmox.Config.csproj",
@@ -2521,7 +2536,9 @@
       "Microsoft.Extensions.Configuration.Json >= 5.0.0",
       "Microsoft.Extensions.DependencyInjection >= 6.0.0",
       "MySql.Data >= 8.0.30",
+      "Newtonsoft.Json >= 13.0.1",
       "Pomelo.EntityFrameworkCore.MySql >= 6.0.2",
+      "Proxbot.Model >= 1.0.0",
       "Proxmox.Config >= 1.0.0",
       "SkiaSharp >= 2.88.1",
       "SkiaSharp.NativeAssets.Linux.NoDependencies >= 2.88.1",
@@ -2555,6 +2572,9 @@
           "projectReferences": {
             "/home/andreock/Scrivania/ProxBot/Proxbot.Config/Proxmox.Config.csproj": {
               "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Config/Proxmox.Config.csproj"
+            },
+            "/home/andreock/Scrivania/ProxBot/Proxbot.Model/Proxbot.Model.csproj": {
+              "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Model/Proxbot.Model.csproj"
             }
           }
         }
@@ -2600,6 +2620,10 @@
           "MySql.Data": {
             "target": "Package",
             "version": "[8.0.30, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",

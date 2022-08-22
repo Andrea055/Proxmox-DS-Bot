@@ -78,3 +78,8 @@
 /home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/runtimes/linux-arm64/native/libSkiaSharp.so
 /home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/runtimes/linux-musl-x64/native/libSkiaSharp.so
 /home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/runtimes/linux-x64/native/libSkiaSharp.so
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model.deps.json
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model.runtimeconfig.json
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model.dll
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model.pdb

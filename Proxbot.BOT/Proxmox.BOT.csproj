@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Proxmox.BOT</RootNamespace>
-    <StartupObjecttttttt/>
+    <StartupObjectttttttt />
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,10 +20,12 @@
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="SkiaSharp" Version="2.88.1" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Proxbot.Config\Proxmox.Config.csproj" />
+    <ProjectReference Include="..\Proxbot.Model\Proxbot.Model.csproj" />
   </ItemGroup>
 
 
