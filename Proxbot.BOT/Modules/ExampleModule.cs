@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 using Proxmox.Model;
 using Discord.WebSocket;
 using Proxmox.Permission;
-using System;
+using System.Linq;
 
 namespace Proxmox.BOT
 {
     // Interation modules must be public and inherit from an IInterationModuleBase
-    public class ExampleModule : InteractionModuleBase<SocketInteractionContext>
+    public class ProxbotModule : InteractionModuleBase<SocketInteractionContext>
     {
         // Dependencies can be accessed through Property injection, public properties with public setters will be set by the service provider
         public InteractionService Commands { get; set; }
@@ -20,7 +20,7 @@ namespace Proxmox.BOT
         private readonly InteractionHandler _handler;
 
         // Constructor injection is also a valid way to access the dependencies
-        public ExampleModule(InteractionHandler handler)
+        public ProxbotModule(InteractionHandler handler)
         {
             _handler = handler;
         }
@@ -54,7 +54,6 @@ namespace Proxmox.BOT
                     .WithValue($"Total: {response.rootfs.total} \n Used: {response.rootfs.used} \n Free: {response.rootfs.free} \n Available: {response.rootfs.avail}");
                 var embed = new EmbedBuilder
                     {
-                    // Embed property can be set within object initializer
                     Title = node,
                     Description = response.pveversion,
                     Fields = new List<EmbedFieldBuilder>(){
@@ -67,7 +66,7 @@ namespace Proxmox.BOT
             }
         }       
         [SlashCommand("vms", "Show all VM in Proxmox client")]
-        public async Task Spawn([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        public async Task VMs([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
         [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password)
         {
             var client = new PveClient(ip);
@@ -87,12 +86,10 @@ namespace Proxmox.BOT
 
                         }
                     }
-                        
-                    
                     var builder = new ComponentBuilder()
                                 .WithSelectMenu(menuBuilder);
                             
-                            await ReplyAsync("Choose a VM", components: builder.Build());
+                    await ReplyAsync("Choose a VM", components: builder.Build());
             }else{
                 await ReplyAsync(text: "Failed to connect to server");
             }        
@@ -161,8 +158,57 @@ namespace Proxmox.BOT
                 }else{
                     await ReplyAsync(text: "You don't have the permission to do that");
                 }
-
-            
         }
+        [SlashCommand("startall", "Start all VMs")]
+        public async Task StartAll([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+            var checker = new Checker();
+            var user = Context.User as SocketGuildUser;
+            if(checker.isAdmin(user)){
+                    var client = new PveClient(ip);
+                    if (await client.Login(username, password)){
+                        await client.Nodes[node].Startall.Startall();
+                        await ReplyAsync(text: "All VMs are started correctly");
+                    }else{
+                        await ReplyAsync(text: "Failed to connect to server");
+                    }
+                }else{
+                    await ReplyAsync(text: "You don't have the permission to do that");
+                }
+            }
+        [SlashCommand("stopall", "Stop all VMs")]
+        public async Task StopAll([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+            var checker = new Checker();
+            var user = Context.User as SocketGuildUser;
+            if(checker.isAdmin(user)){
+                    var client = new PveClient(ip);
+                    if (await client.Login(username, password)){
+                        await client.Nodes[node].Stopall.Stopall();
+                        await ReplyAsync(text: "All VMs are stopped correctly");
+                    }else{
+                        await ReplyAsync(text: "Failed to connect to server");
+                    }
+                }else{
+                    await ReplyAsync(text: "You don't have the permission to do that");
+                }
+            }
+        [SlashCommand("syslog", "Read the system log")]
+        public async Task ReadLogs([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+            var client = new PveClient(ip);
+                if (await client.Login(username, password)){
+                    var log_raw = await client.Nodes[node].Syslog.Syslog();
+                    var log = log_raw.Response.data;
+                    var all_log_raw = new List<string>();
+                    foreach (var lograw in log){
+                        all_log_raw.Add(lograw.t); 
+                    }
+                    await ReplyAsync(text: string.Join("\n", all_log_raw));
+                }else{
+                    await ReplyAsync(text: "Failed to connect to server");
+                }
+        }
+        }
+        
     }
-}
