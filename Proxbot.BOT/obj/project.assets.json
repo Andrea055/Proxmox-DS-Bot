@@ -19,7 +19,7 @@
           }
         }
       },
-      "Discord.Net.Core/3.6.1": {
+      "Discord.Net.Core/3.7.2": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.1",
@@ -59,10 +59,10 @@
           }
         }
       },
-      "Discord.Net.Rest/3.6.1": {
+      "Discord.Net.Rest/3.7.2": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.6.1"
+          "Discord.Net.Core": "3.7.2"
         },
         "compile": {
           "lib/net6.0/Discord.Net.Rest.dll": {
@@ -75,11 +75,11 @@
           }
         }
       },
-      "Discord.Net.WebSocket/3.6.1": {
+      "Discord.Net.WebSocket/3.7.2": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.6.1",
-          "Discord.Net.Rest": "3.6.1"
+          "Discord.Net.Core": "3.7.2",
+          "Discord.Net.Rest": "3.7.2"
         },
         "compile": {
           "lib/net6.0/Discord.Net.WebSocket.dll": {
@@ -1015,6 +1015,19 @@
           "bin/placeholder/Proxbot.Model.dll": {}
         }
       },
+      "Proxbot.Permission/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Discord.Net.WebSocket": "3.7.2"
+        },
+        "compile": {
+          "bin/placeholder/Proxbot.Permission.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Proxbot.Permission.dll": {}
+        }
+      },
       "Proxmox.Config/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -1047,14 +1060,15 @@
         "lib/netstandard2.0/Corsinvest.ProxmoxVE.Api.xml"
       ]
     },
-    "Discord.Net.Core/3.6.1": {
-      "sha512": "ibVjQiWzgqh0GyP/GXE2kv3TA/9ysmmNFG/WmRE7GepQQAXXGxVUO9IMJ8h14EvIXMQ0m0DktMe5DkUnilo3Ag==",
+    "Discord.Net.Core/3.7.2": {
+      "sha512": "apwswc6LjN4dj3u27SO3Hr56Jzl91wzReahieoD7IQhV+BJQaRxhTRiEEWFTrBzHfeFHEOQ7r6vZnra3zeFhKA==",
       "type": "package",
-      "path": "discord.net.core/3.6.1",
+      "path": "discord.net.core/3.7.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.core.3.6.1.nupkg.sha512",
+        "PackageLogo.png",
+        "discord.net.core.3.7.2.nupkg.sha512",
         "discord.net.core.nuspec",
         "lib/net461/Discord.Net.Core.dll",
         "lib/net461/Discord.Net.Core.xml",
@@ -1089,14 +1103,15 @@
         "lib/netstandard2.1/Discord.Net.Interactions.xml"
       ]
     },
-    "Discord.Net.Rest/3.6.1": {
-      "sha512": "T7RRThIS23roFEJwTL1l7aawjVyn7ZB5yH3tMge0d6TiCzzp4V4FAZ+ArTt19LHRFhPly90v8V3sWqmTMN+5Zg==",
+    "Discord.Net.Rest/3.7.2": {
+      "sha512": "dyp8YaMBNJ837EH1KNz2PNGZqc2y71WFd1+pdldF+pLQJ3Gf/+V7685paAR7bQw7yFNyqEBR/QRBCNp+QIQ7Wg==",
       "type": "package",
-      "path": "discord.net.rest/3.6.1",
+      "path": "discord.net.rest/3.7.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.rest.3.6.1.nupkg.sha512",
+        "PackageLogo.png",
+        "discord.net.rest.3.7.2.nupkg.sha512",
         "discord.net.rest.nuspec",
         "lib/net461/Discord.Net.Rest.dll",
         "lib/net461/Discord.Net.Rest.xml",
@@ -1110,14 +1125,15 @@
         "lib/netstandard2.1/Discord.Net.Rest.xml"
       ]
     },
-    "Discord.Net.WebSocket/3.6.1": {
-      "sha512": "hF22Xy7URlVEDQZ69INOgzPvFUsIDfd+r6U+1yF9HWdBn3d4THnvAAhkv1TraSx/T/MKS7g+jvk/HZ3mh5S3aw==",
+    "Discord.Net.WebSocket/3.7.2": {
+      "sha512": "pYCd6ET44ADaNiyEw82TaJnR7TKYHfrKCytWFWMPL5faJhoh260avZn3Hwunlf331lEQ0f4K1CujPkQbNuq7kQ==",
       "type": "package",
-      "path": "discord.net.websocket/3.6.1",
+      "path": "discord.net.websocket/3.7.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.websocket.3.6.1.nupkg.sha512",
+        "PackageLogo.png",
+        "discord.net.websocket.3.7.2.nupkg.sha512",
         "discord.net.websocket.nuspec",
         "lib/net461/Discord.Net.WebSocket.dll",
         "lib/net461/Discord.Net.WebSocket.xml",
@@ -2520,6 +2536,11 @@
       "path": "../Proxbot.Model/Proxbot.Model.csproj",
       "msbuildProject": "../Proxbot.Model/Proxbot.Model.csproj"
     },
+    "Proxbot.Permission/1.0.0": {
+      "type": "project",
+      "path": "../Proxbot.Permission/Proxbot.Permission.csproj",
+      "msbuildProject": "../Proxbot.Permission/Proxbot.Permission.csproj"
+    },
     "Proxmox.Config/1.0.0": {
       "type": "project",
       "path": "../Proxbot.Config/Proxmox.Config.csproj",
@@ -2539,6 +2560,7 @@
       "Newtonsoft.Json >= 13.0.1",
       "Pomelo.EntityFrameworkCore.MySql >= 6.0.2",
       "Proxbot.Model >= 1.0.0",
+      "Proxbot.Permission >= 1.0.0",
       "Proxmox.Config >= 1.0.0",
       "SkiaSharp >= 2.88.1",
       "SkiaSharp.NativeAssets.Linux.NoDependencies >= 2.88.1",
@@ -2575,6 +2597,9 @@
             },
             "/home/andreock/Scrivania/ProxBot/Proxbot.Model/Proxbot.Model.csproj": {
               "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Model/Proxbot.Model.csproj"
+            },
+            "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj": {
+              "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj"
             }
           }
         }

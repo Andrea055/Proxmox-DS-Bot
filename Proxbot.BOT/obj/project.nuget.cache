@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "9+Yag4pdgMPFdbMfhnwko2JzfYKKh2nsQ0kHSEaKSxr6YgM6V7snMq6+tVZM/0ZNO+aB4SVbxcf4yUWxekXKTA==",
+  "dgSpecHash": "SGOOixLRIhk/uQ0yEFdVM1ZIurntULygEdgsIm8+WR79FW8+cBXWILN4CVabjTQM7CFBxAF8yYMM9z1HvVs22A==",
   "success": true,
   "projectFilePath": "/home/andreock/Scrivania/ProxBot/Proxbot.BOT/Proxmox.BOT.csproj",
   "expectedPackageFiles": [
     "/home/andreock/.nuget/packages/corsinvest.proxmoxve.api/7.3.2/corsinvest.proxmoxve.api.7.3.2.nupkg.sha512",
-    "/home/andreock/.nuget/packages/discord.net.core/3.6.1/discord.net.core.3.6.1.nupkg.sha512",
+    "/home/andreock/.nuget/packages/discord.net.core/3.7.2/discord.net.core.3.7.2.nupkg.sha512",
     "/home/andreock/.nuget/packages/discord.net.interactions/3.6.1/discord.net.interactions.3.6.1.nupkg.sha512",
-    "/home/andreock/.nuget/packages/discord.net.rest/3.6.1/discord.net.rest.3.6.1.nupkg.sha512",
-    "/home/andreock/.nuget/packages/discord.net.websocket/3.6.1/discord.net.websocket.3.6.1.nupkg.sha512",
+    "/home/andreock/.nuget/packages/discord.net.rest/3.7.2/discord.net.rest.3.7.2.nupkg.sha512",
+    "/home/andreock/.nuget/packages/discord.net.websocket/3.7.2/discord.net.websocket.3.7.2.nupkg.sha512",
     "/home/andreock/.nuget/packages/google.protobuf/3.19.4/google.protobuf.3.19.4.nupkg.sha512",
     "/home/andreock/.nuget/packages/k4os.compression.lz4/1.2.6/k4os.compression.lz4.1.2.6.nupkg.sha512",
     "/home/andreock/.nuget/packages/k4os.compression.lz4.streams/1.2.6/k4os.compression.lz4.streams.1.2.6.nupkg.sha512",

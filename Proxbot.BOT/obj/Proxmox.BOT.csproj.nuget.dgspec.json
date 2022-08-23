@@ -31,6 +31,9 @@
               },
               "/home/andreock/Scrivania/ProxBot/Proxbot.Model/Proxbot.Model.csproj": {
                 "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Model/Proxbot.Model.csproj"
+              },
+              "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj": {
+                "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj"
               }
             }
           }
@@ -210,6 +213,65 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/andreock/.dotnet/sdk/6.0.400/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj",
+        "projectName": "Proxbot.Permission",
+        "projectPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/Proxbot.Permission.csproj",
+        "packagesPath": "/home/andreock/.nuget/packages/",
+        "outputPath": "/home/andreock/Scrivania/ProxBot/Proxbot.Permission/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/andreock/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Discord.Net.WebSocket": {
+              "target": "Package",
+              "version": "[3.7.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

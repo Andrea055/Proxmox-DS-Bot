@@ -83,3 +83,8 @@
 /home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model
 /home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model.dll
 /home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Model.pdb
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Permission.deps.json
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Permission.runtimeconfig.json
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Permission
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Permission.dll
+/home/andreock/Scrivania/ProxBot/Proxbot.BOT/bin/Debug/net6.0/Proxbot.Permission.pdb

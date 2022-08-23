@@ -43,8 +43,11 @@ namespace Proxmox.BOT
         {
             // Context & Slash commands can be automatically registered, but this process needs to happen after the client enters the READY state.
             // Since Global Commands take around 1 hour to register, we should use a test guild to instantly update and test our commands.
-            if (Program.IsDebug())
-                await _handler.RegisterCommandsToGuildAsync(692721569625145406, true);
+            if (Program.IsDebug()){
+                var config_parser = new Config.Config();
+                var config = config_parser.Parse();
+                await _handler.RegisterCommandsToGuildAsync(config.GUID, true);
+            }
             else
                 await _handler.RegisterCommandsGloballyAsync(true);
         }

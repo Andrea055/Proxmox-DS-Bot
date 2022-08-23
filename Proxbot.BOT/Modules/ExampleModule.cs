@@ -5,6 +5,10 @@ using Corsinvest.ProxmoxVE.Api;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Proxmox.Model;
+using Discord.WebSocket;
+using Proxmox.Permission;
+using System;
+
 namespace Proxmox.BOT
 {
     // Interation modules must be public and inherit from an IInterationModuleBase
@@ -26,7 +30,8 @@ namespace Proxmox.BOT
             => await RespondAsync(text: $":ping_pong: It took me {Context.Client.Latency}ms to respond to you!", ephemeral: true);
 
         [SlashCommand("specs", "Gets Specification of server")]
-        public async Task Specs([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+        public async Task Specs([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
             
             var client = new PveClient(ip);
             if (await client.Login(username, password))
@@ -58,11 +63,12 @@ namespace Proxmox.BOT
                     };
                     await ReplyAsync(embed: embed.Build());
             }else{
-                await ReplyAsync(text: "Connection to node failder");
+                await ReplyAsync(text: "Failed to connect to server");      
             }
         }       
         [SlashCommand("vms", "Show all VM in Proxmox client")]
-        public async Task Spawn([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password)
+        public async Task Spawn([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password)
         {
             var client = new PveClient(ip);
             if (await client.Login(username, password))
@@ -87,36 +93,76 @@ namespace Proxmox.BOT
                                 .WithSelectMenu(menuBuilder);
                             
                             await ReplyAsync("Choose a VM", components: builder.Build());
+            }else{
+                await ReplyAsync(text: "Failed to connect to server");
             }        
         }
         [SlashCommand("netstat", "Get statistics from all network VM")]
-        public async Task NetStat([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+        public async Task NetStat([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
             var client = new PveClient(ip);
-            if (await client.Login(username, password)){
-                var netstat_raw = await client.Nodes[node].Netstat.Netstat();
-                var netstat = netstat_raw.Response.data;
-                var fields = new List<EmbedFieldBuilder>();
-                foreach(dynamic vm in netstat){
-                    string vmstring = JsonConvert.SerializeObject(vm);
-                    vmstring = vmstring.Replace("in", "innet");
-                    vmstring = vmstring.Replace("out", "outnet");
-                    Netstat vmtrue = JsonConvert.DeserializeObject<Netstat>(vmstring);
-                    fields.Add(new EmbedFieldBuilder()
-                        .WithName($"Network in - VM{vm.vmid}")
-                        .WithValue(vmtrue.innet)
-                    );
-                    fields.Add(new EmbedFieldBuilder()
-                        .WithName($"Network out - VM{vm.vmid}")
-                        .WithValue(vmtrue.outnet)
-                    );
-                }
-                var embed = new EmbedBuilder
-                    {
-                    Title = $"Network usage in {node}",
-                    Fields = fields           
-                    };   
-                await ReplyAsync(embed: embed.Build());
+                if (await client.Login(username, password)){
+                    var netstat_raw = await client.Nodes[node].Netstat.Netstat();
+                    var netstat = netstat_raw.Response.data;
+                    var fields = new List<EmbedFieldBuilder>();
+                    foreach(dynamic vm in netstat){
+                        string vmstring = JsonConvert.SerializeObject(vm);
+                        vmstring = vmstring.Replace("in", "innet");
+                        vmstring = vmstring.Replace("out", "outnet");
+                        Netstat vmtrue = JsonConvert.DeserializeObject<Netstat>(vmstring);
+                        fields.Add(new EmbedFieldBuilder()
+                            .WithName($"Network in - VM{vm.vmid}")
+                            .WithValue(vmtrue.innet)
+                        );
+                        fields.Add(new EmbedFieldBuilder()
+                            .WithName($"Network out - VM{vm.vmid}")
+                            .WithValue(vmtrue.outnet)
+                        );
+                    }
+                    var embed = new EmbedBuilder
+                        {
+                        Title = $"Network usage in {node}",
+                        Fields = fields           
+                        };   
+                    await ReplyAsync(embed: embed.Build());
+            }else{
+                await ReplyAsync(text: "Failed to connect to server");
             }
+
+        }
+        [SlashCommand("getdns", "Get the DNS on Proxmox node")]
+        public async Task GetDNS([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+                var client = new PveClient(ip);
+                if (await client.Login(username, password)){
+                    var dns_raw = await client.Nodes[node].Dns.Dns();
+                    var dns = dns_raw.Response.data;
+                    await ReplyAsync(text: $"The DNS for node {node} is {JsonConvert.SerializeObject(dns)}");
+                }else{
+                    await ReplyAsync(text: "Failed to connect to server");
+                }
+            
+        }
+        [SlashCommand("setdns", "Set the DNS on Proxmox node")]
+        public async Task SetDNS([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password,
+        [Summary(description: "Search domain")]string search, [Summary(description: "DNS1 IP")] string dns1, [Summary(description: "DNS2 IP")] string dns2,
+        [Summary(description: "DNS3 IP")] string dns3){
+                var user = Context.User as SocketGuildUser;
+                var checker = new Checker();
+                if(checker.isAdmin(user)){
+                    var client = new PveClient(ip);
+                    if (await client.Login(username, password)){
+                        await client.Nodes[node].Dns.UpdateDns(search, dns1, dns2, dns3);
+                        await ReplyAsync(text: "DNS changed successfully");
+                    }else{
+                        await ReplyAsync(text: "Failed to connect to server");
+                    }
+                }else{
+                    await ReplyAsync(text: "You don't have the permission to do that");
+                }
+
+            
         }
     }
 }

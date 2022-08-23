@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxmox.Config", "Proxbot.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxbot.Model", "Proxbot.Model\Proxbot.Model.csproj", "{822844CE-513D-4A1A-902B-71CEB076F325}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxbot.Permission", "Proxbot.Permission\Proxbot.Permission.csproj", "{161235EF-C08B-49B3-B101-30030D8F421C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,5 +36,9 @@ Global
 		{822844CE-513D-4A1A-902B-71CEB076F325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{822844CE-513D-4A1A-902B-71CEB076F325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{822844CE-513D-4A1A-902B-71CEB076F325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161235EF-C08B-49B3-B101-30030D8F421C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161235EF-C08B-49B3-B101-30030D8F421C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161235EF-C08B-49B3-B101-30030D8F421C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161235EF-C08B-49B3-B101-30030D8F421C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Proxbot.Config\Proxmox.Config.csproj" />
     <ProjectReference Include="..\Proxbot.Model\Proxbot.Model.csproj" />
+    <ProjectReference Include="..\Proxbot.Permission\Proxbot.Permission.csproj" />
   </ItemGroup>
 
 

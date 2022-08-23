@@ -4,3 +4,5 @@ Proxbot.Config/bin/
 Proxbot.BOT/obj/
 Proxbot.Model/bin/
 Proxbot.Model/obj/
+Proxbot.Permission/obj/
+Proxbot.Permission/bin/
