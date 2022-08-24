@@ -60,9 +60,9 @@ namespace Proxmox.BOT
                             cpu, cpusage, ram, rootfs
                         }              
                     };
-                    await ReplyAsync(embed: embed.Build());
+                    await RespondAsync(embed: embed.Build());
             }else{
-                await ReplyAsync(text: "Failed to connect to server");      
+                await RespondAsync(text: "Failed to connect to server");      
             }
         }       
         [SlashCommand("vms", "Show all VM in Proxmox client")]
@@ -89,9 +89,9 @@ namespace Proxmox.BOT
                     var builder = new ComponentBuilder()
                                 .WithSelectMenu(menuBuilder);
                             
-                    await ReplyAsync("Choose a VM", components: builder.Build());
+                    await RespondAsync("Choose a VM", components: builder.Build());
             }else{
-                await ReplyAsync(text: "Failed to connect to server");
+                await RespondAsync(text: "Failed to connect to server");
             }        
         }
         [SlashCommand("netstat", "Get statistics from all network VM")]
@@ -121,9 +121,9 @@ namespace Proxmox.BOT
                         Title = $"Network usage in {node}",
                         Fields = fields           
                         };   
-                    await ReplyAsync(embed: embed.Build());
+                    await RespondAsync(embed: embed.Build());
             }else{
-                await ReplyAsync(text: "Failed to connect to server");
+                await RespondAsync(text: "Failed to connect to server");
             }
 
         }
@@ -134,9 +134,9 @@ namespace Proxmox.BOT
                 if (await client.Login(username, password)){
                     var dns_raw = await client.Nodes[node].Dns.Dns();
                     var dns = dns_raw.Response.data;
-                    await ReplyAsync(text: $"The DNS for node {node} is {JsonConvert.SerializeObject(dns)}");
+                    await RespondAsync(text: $"The DNS for node {node} is {JsonConvert.SerializeObject(dns)}");
                 }else{
-                    await ReplyAsync(text: "Failed to connect to server");
+                    await RespondAsync(text: "Failed to connect to server");
                 }
             
         }
@@ -151,12 +151,12 @@ namespace Proxmox.BOT
                     var client = new PveClient(ip);
                     if (await client.Login(username, password)){
                         await client.Nodes[node].Dns.UpdateDns(search, dns1, dns2, dns3);
-                        await ReplyAsync(text: "DNS changed successfully");
+                        await RespondAsync(text: "DNS changed successfully");
                     }else{
-                        await ReplyAsync(text: "Failed to connect to server");
+                        await RespondAsync(text: "Failed to connect to server");
                     }
                 }else{
-                    await ReplyAsync(text: "You don't have the permission to do that");
+                    await RespondAsync(text: "You don't have the permission to do that");
                 }
         }
         [SlashCommand("startall", "Start all VMs")]
@@ -168,12 +168,12 @@ namespace Proxmox.BOT
                     var client = new PveClient(ip);
                     if (await client.Login(username, password)){
                         await client.Nodes[node].Startall.Startall();
-                        await ReplyAsync(text: "All VMs are started correctly");
+                        await RespondAsync(text: "All VMs are started correctly");
                     }else{
-                        await ReplyAsync(text: "Failed to connect to server");
+                        await RespondAsync(text: "Failed to connect to server");
                     }
                 }else{
-                    await ReplyAsync(text: "You don't have the permission to do that");
+                    await RespondAsync(text: "You don't have the permission to do that");
                 }
             }
         [SlashCommand("stopall", "Stop all VMs")]
@@ -185,30 +185,77 @@ namespace Proxmox.BOT
                     var client = new PveClient(ip);
                     if (await client.Login(username, password)){
                         await client.Nodes[node].Stopall.Stopall();
-                        await ReplyAsync(text: "All VMs are stopped correctly");
+                        await RespondAsync(text: "All VMs are stopped correctly");
                     }else{
-                        await ReplyAsync(text: "Failed to connect to server");
+                        await RespondAsync(text: "Failed to connect to server");
                     }
                 }else{
-                    await ReplyAsync(text: "You don't have the permission to do that");
+                    await RespondAsync(text: "You don't have the permission to do that");
                 }
             }
         [SlashCommand("syslog", "Read the system log")]
         public async Task ReadLogs([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip, 
         [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
             var client = new PveClient(ip);
-                if (await client.Login(username, password)){
-                    var log_raw = await client.Nodes[node].Syslog.Syslog();
-                    var log = log_raw.Response.data;
-                    var all_log_raw = new List<string>();
-                    foreach (var lograw in log){
-                        all_log_raw.Add(lograw.t); 
-                    }
-                    await ReplyAsync(text: string.Join("\n", all_log_raw));
-                }else{
-                    await ReplyAsync(text: "Failed to connect to server");
+            if (await client.Login(username, password)){
+                var log_raw = await client.Nodes[node].Syslog.Syslog();
+                var log = log_raw.Response.data;
+                var all_log_raw = new List<string>();
+                foreach (var lograw in log){
+                    all_log_raw.Add(lograw.t); 
                 }
+                await RespondAsync(text: string.Join("\n", all_log_raw));
+            }else{
+                await RespondAsync(text: "Failed to connect to server");
+            }
         }
+        [SlashCommand("getsubscription", "Get the subscription information")]
+        public async Task ReadSubscription([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip,
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+            var client = new PveClient(ip);
+            if (await client.Login(username, password)){
+                var sub_raw = await client.Nodes[node].Subscription.Get();
+                var sub = sub_raw.Response.data;
+                await RespondAsync(text: sub.message);
+            }else{
+                await RespondAsync(text: "Failed to connect to server");
+            } 
         }
-        
+        [SlashCommand("setsubscription", "Set the subscription key")]
+        public async Task SetSubscription([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip,
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password,
+        [Summary(description: "Subscription key")]string subscriptionkey){
+            var user = Context.User as SocketGuildUser;
+            var checker = new Checker();
+            if(checker.isAdmin(user)){
+                var client = new PveClient(ip);
+                if (await client.Login(username, password)){
+                    await client.Nodes[node].Subscription.Set(subscriptionkey);
+                    await RespondAsync(text: "Key updated!");
+                }else{
+                    await RespondAsync(text: "Failed to connect to server");
+                } 
+            }else{
+                await RespondAsync(text: "You don't have the permission to do that");
+            }
+        }
+        [SlashCommand("deletesubscription", "Delete the subscription key")]
+        public async Task DeleteSubscription([Summary(description: "Node name")]string node,[Summary(description: "IP of Proxmox server")]string ip,
+        [Summary(description: "Username of Proxmox server")]string username,[Summary(description: "Password of Proxmox server")]string password){
+            var user = Context.User as SocketGuildUser;
+            var checker = new Checker();
+            if(checker.isAdmin(user)){
+                var client = new PveClient(ip);
+                if (await client.Login(username, password)){
+                    await client.Nodes[node].Subscription.Delete();
+                    await RespondAsync(text: "Key deleted!");
+                }else{
+                    await RespondAsync(text: "Failed to connect to server");
+                } 
+            }else{
+                await RespondAsync(text: "You don't have the permission to do that");
+            }
+        }
     }
+        
+}
